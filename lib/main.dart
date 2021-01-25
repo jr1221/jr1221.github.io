@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import 'distCalc.dart';
 import 'dataWizard.dart';
+import 'package:flutter/foundation.dart' show kIsWeb;
 
 void main() => runApp(MyApp());
 
@@ -26,13 +27,16 @@ class Page1 extends StatelessWidget {
         );
       },
     );
-    RaisedButton frcDataPager = RaisedButton(
+    Visibility visFRC = Visibility(
+      visible: !kIsWeb,
+    child: RaisedButton(
       child: Text("FRC Datawizard", style: TextStyle(fontSize: 28),),
       onPressed: () {
         Navigator.push(context,
           MaterialPageRoute(builder: (context) =>  ChooseData()),
         );
       },
+    ),
     );
     Container container = Container(
         padding: const EdgeInsets.all(8.0),
@@ -40,7 +44,7 @@ class Page1 extends StatelessWidget {
           SizedBox(height: 20,),
           distCalcPager,
           SizedBox(height: 40,),
-          frcDataPager,
+          visFRC,
         ]));
     AppBar appBar = AppBar(
       title: Text("Handy Tools by Jack"),
