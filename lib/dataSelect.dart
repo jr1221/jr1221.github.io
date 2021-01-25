@@ -1,4 +1,6 @@
+import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
+import 'jsonInterpreters/9_teams.dart';
 import 'urlGenerator.dart';
 import 'jsonInterpreters/14_avatar.dart';
 import 'jsonInterpreters/13_districts.dart';
@@ -29,6 +31,7 @@ class _ChooseOptsState extends State<ChooseOpts> {
     _team = widget.team;
     _event = widget.event;
   }
+
   bool _removeUnable(bool eventreq, bool teamreq) {
     if ((_event == null || _event.length < 2) && eventreq) {
       AlertDialog eventInvalid = AlertDialog(
@@ -65,50 +68,86 @@ class _ChooseOptsState extends State<ChooseOpts> {
     return false;
   }
 
-
   @override
   Widget build(BuildContext context) {
     FlatButton alliances = FlatButton(
       child: Text('Alliances'),
-    onPressed: () {
-      if (_removeUnable(true, false)) return;
-        String url = UrlGenerator(_year, _event, _team).fromSelection(3);
+      onPressed: () {
+        if (_removeUnable(true, false)) return;
+        String url =
+            UrlGenerator(_year, _event, _team).fromSelection(selection: 3);
         Navigator.push(
           context,
           MaterialPageRoute(builder: (context) => AlliancesWidg(url: url)),
         );
       },
     );
+    FlatButton teamListing = FlatButton(
+      child: Text('Team Listings'),
+      onPressed: () async {
+        int selection = 0;
+        String goValue = "";
+        if (_team == null && _event == null) {
+           selection = await showDialog(
+              context: context,
+              barrierDismissible: false,
+              builder: (BuildContext context) => OptsWidg(
+                  "Filter by district or state?", "State", "District"));
+          if (selection == 1) {
+            goValue = await showDialog(
+                context: context,
+                barrierDismissible: false,
+                builder: (BuildContext context) =>
+                    TextWidg("Enter State", "State"));
+          } else if (selection == 2) {
+            goValue = await showDialog(
+                context: context,
+                barrierDismissible: false,
+                builder: (BuildContext context) =>
+                    TextWidg("Enter District", "District"));
+          }
+        }
+        String url = UrlGenerator(_year, _event, _team).fromSelection(
+            selection: 9, extraNamed: goValue, extraNamedMode: selection);
+        Navigator.push(
+          context,
+          MaterialPageRoute(builder: (context) => TeamsWidg(url: url)),
+        );
+      },
+    );
     FlatButton yearInfo = FlatButton(
       child: Text('Year Info'),
       onPressed: () {
-        String url = UrlGenerator(_year, _event, _team).fromSelection(10);
+        String url =
+            UrlGenerator(_year, _event, _team).fromSelection(selection: 10);
         Navigator.push(
           context,
           MaterialPageRoute(builder: (context) => YearWidg(url: url)),
         );
       },
     );
-     FlatButton awards = FlatButton(
-       child: Text('Awards'),
-       onPressed: () {
-         String url = UrlGenerator(_year, _event, _team).fromSelection(11);
-         if (_event == null && _team == null) {
-           Navigator.push(
-             context,
-             MaterialPageRoute(builder: (context) => AwardsListWidg(url: url)),
-           );
-         } else
-           Navigator.push(
-             context,
-             MaterialPageRoute(builder: (context) => AwardsWidg(url: url)),
-           );
-       },
-     );
+    FlatButton awards = FlatButton(
+      child: Text('Awards'),
+      onPressed: () {
+        String url =
+            UrlGenerator(_year, _event, _team).fromSelection(selection: 11);
+        if (_event == null && _team == null) {
+          Navigator.push(
+            context,
+            MaterialPageRoute(builder: (context) => AwardsListWidg(url: url)),
+          );
+        } else
+          Navigator.push(
+            context,
+            MaterialPageRoute(builder: (context) => AwardsWidg(url: url)),
+          );
+      },
+    );
     FlatButton districts = FlatButton(
       child: Text('Districts'),
       onPressed: () {
-        String url = UrlGenerator(_year, _event, _team).fromSelection(13);
+        String url =
+            UrlGenerator(_year, _event, _team).fromSelection(selection: 13);
         Navigator.push(
           context,
           MaterialPageRoute(builder: (context) => DistrictWidg(url: url)),
@@ -119,7 +158,8 @@ class _ChooseOptsState extends State<ChooseOpts> {
       child: Text('Avatar'),
       onPressed: () {
         if (_removeUnable(false, true)) return;
-        String url = UrlGenerator(_year, _event, _team).fromSelection(14);
+        String url =
+            UrlGenerator(_year, _event, _team).fromSelection(selection: 14);
         Navigator.push(
           context,
           MaterialPageRoute(builder: (context) => AvatarWidg(url: url)),
@@ -133,6 +173,7 @@ class _ChooseOptsState extends State<ChooseOpts> {
             width: 20,
           ),
           alliances,
+          teamListing,
           yearInfo,
           awards,
           districts,
@@ -144,5 +185,68 @@ class _ChooseOptsState extends State<ChooseOpts> {
     );
     Scaffold scaffold = Scaffold(appBar: appBar, body: container);
     return scaffold;
+  }
+}
+
+class OptsWidg extends StatelessWidget {
+  final String askEnt;
+  final String askOpt1;
+  final String askOpt2;
+
+  OptsWidg(this.askEnt, this.askOpt1, this.askOpt2);
+
+  @override
+  Widget build(BuildContext context) {
+    return AlertDialog(
+      title: Text(
+        askEnt,
+        textAlign: TextAlign.center,
+        style: TextStyle(fontSize: 18),
+      ),
+      actions: <Widget>[
+        ElevatedButton(
+            onPressed: () {
+              Navigator.pop(context, 1);
+            },
+            child: Text(askOpt1)),
+        ElevatedButton(
+          onPressed: () {
+            Navigator.pop(context, 2);
+          },
+          child: Text(askOpt2),
+        ),
+      ],
+    );
+  }
+}
+
+class TextWidg extends StatelessWidget {
+  final String title;
+  final String label;
+  TextWidg(this.title, this.label);
+
+  @override
+  Widget build(BuildContext context) {
+    String responseStr;
+    return AlertDialog(
+      title: Text(
+        title,
+        textAlign: TextAlign.center,
+        style: TextStyle(fontSize: 18),
+      ),
+      content: TextField(
+        decoration: InputDecoration(labelText: label),
+        onChanged: (String newValue) {
+          responseStr = newValue;
+        },
+      ),
+      actions: <Widget>[
+        ElevatedButton(
+            onPressed: () {
+              Navigator.pop(context, responseStr);
+            },
+            child: Text("Enter"))
+      ],
+    );
   }
 }

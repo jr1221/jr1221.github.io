@@ -122,7 +122,9 @@ class _ChooseDataState extends State<ChooseData> {
         setState(() {
           try {
             _year = int.parse(newValue);
-          } catch (Exception) {}
+          } catch (Exception) {
+            _year = null;
+          }
         });
       },
     );
@@ -131,7 +133,8 @@ class _ChooseDataState extends State<ChooseData> {
       decoration: InputDecoration(labelText: "Input Event"),
       onChanged: (String newValue) {
         setState(() {
-          _event = newValue;
+          if (newValue == null) _event = null;
+          else _event = newValue;
         });
       },
     );
@@ -142,7 +145,9 @@ class _ChooseDataState extends State<ChooseData> {
         setState(() {
           try {
             _team = int.parse(newValue);
-          } catch (Exception) {}
+          } catch (Exception) {
+            _team = null;
+          }
         });
       },
     );
