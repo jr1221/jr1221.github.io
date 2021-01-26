@@ -24,7 +24,8 @@ Future<DistrictData> fetchAuto(String url) async {
   } else {
     // If the server did not return a 200 OK response,
     // then throw an exception.
-    throw Exception('Please Enter or check your API Key or ensure the entered inputs are correct');
+    throw Exception(
+        'Please Enter or check your API Key or ensure the entered inputs are correct');
   }
 }
 
@@ -72,8 +73,6 @@ class Districts {
     return data;
   }
 }
-
-
 
 class DistrictWidg extends StatefulWidget {
   final String url;
@@ -128,4 +127,3 @@ class _DistrictWidgState extends State<DistrictWidg> {
     return scaffold;
   }
 }
-

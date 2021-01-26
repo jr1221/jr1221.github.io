@@ -24,7 +24,8 @@ Future<AwardsListData> fetchAuto(String url) async {
   } else {
     // If the server did not return a 200 OK response,
     // then throw an exception.
-    throw Exception('Please Enter or check your API Key or ensure the entered inputs are correct');
+    throw Exception(
+        'Please Enter or check your API Key or ensure the entered inputs are correct');
   }
 }
 
@@ -76,7 +77,6 @@ class Awards {
   }
 }
 
-
 class AwardsListWidg extends StatefulWidget {
   final String url;
   AwardsListWidg({Key key, this.url}) : super(key: key);
@@ -104,8 +104,7 @@ class _AwardsListWidgState extends State<AwardsListWidg> {
           snapshot.data.awards.forEach((element) {
             text += "\n\n${element.description}";
             text += "\nThis award is given out at ${element.eventType}";
-            if (element.forPerson)
-              text += "\nThis award is for a person";
+            if (element.forPerson) text += "\nThis award is for a person";
             text += "\nInternal Award ID: ${element.awardId}";
           });
           return Text(text);
@@ -132,4 +131,3 @@ class _AwardsListWidgState extends State<AwardsListWidg> {
     return scaffold;
   }
 }
-

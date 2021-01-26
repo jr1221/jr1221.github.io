@@ -24,7 +24,8 @@ Future<AlliancesCode> fetchAuto(String url) async {
   } else {
     // If the server did not return a 200 OK response,
     // then throw an exception.
-    throw Exception('Please Enter or check your API Key or ensure the entered inputs are correct');
+    throw Exception(
+        'Please Enter or check your API Key or ensure the entered inputs are correct');
   }
 }
 
@@ -36,7 +37,7 @@ class AlliancesCode {
 
   AlliancesCode.fromJson(Map<String, dynamic> json) {
     if (json['Alliances'] != null) {
-      alliances =  <Alliances>[];
+      alliances = <Alliances>[];
       json['Alliances'].forEach((v) {
         alliances.add(new Alliances.fromJson(v));
       });
@@ -45,7 +46,7 @@ class AlliancesCode {
   }
 
   Map<String, dynamic> toJson() {
-    final Map<String, dynamic> data =  Map<String, dynamic>();
+    final Map<String, dynamic> data = Map<String, dynamic>();
     if (this.alliances != null) {
       data['Alliances'] = this.alliances.map((v) => v.toJson()).toList();
     }
@@ -66,13 +67,13 @@ class Alliances {
 
   Alliances(
       {this.name,
-        this.number,
-        this.captain,
-        this.round1,
-        this.round2,
-        this.round3,
-        this.backup,
-        this.backupReplaced});
+      this.number,
+      this.captain,
+      this.round1,
+      this.round2,
+      this.round3,
+      this.backup,
+      this.backupReplaced});
 
   Alliances.fromJson(Map<String, dynamic> json) {
     name = json['name'];
@@ -86,7 +87,7 @@ class Alliances {
   }
 
   Map<String, dynamic> toJson() {
-    final Map<String, dynamic> data =  Map<String, dynamic>();
+    final Map<String, dynamic> data = Map<String, dynamic>();
     data['name'] = this.name;
     data['number'] = this.number;
     data['captain'] = this.captain;
@@ -126,14 +127,14 @@ class _AlliancesWidgState extends State<AlliancesWidg> {
           text += "${snapshot.data.count.toString()} Alliances";
           snapshot.data.alliances.forEach((element) {
             text += "\n\nAlliance Number: ${element.number}";
-         //   text += element.name; Alliance X
+            //   text += element.name; Alliance X
             text += "\nCaptain: ${element.captain}";
             text += "\nRound 1 Selection: ${element.round1}";
             text += "\nRound 2 Selection: ${element.round2}";
             if (element.round3 != null)
-            text += "\nRound 3 Selection: ${element.round3}";
+              text += "\nRound 3 Selection: ${element.round3}";
             if (element.backup != null)
-            text += "\nBackup Team: ${element.backup}";
+              text += "\nBackup Team: ${element.backup}";
             if (element.backupReplaced != null)
               text += "\nBackup Replaced: ${element.backupReplaced}";
           });

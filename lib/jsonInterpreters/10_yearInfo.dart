@@ -24,7 +24,8 @@ Future<YearData> fetchAuto(String url) async {
   } else {
     // If the server did not return a 200 OK response,
     // then throw an exception.
-    throw Exception('Please Enter or check your API Key or ensure the entered inputs are correct');
+    throw Exception(
+        'Please Enter or check your API Key or ensure the entered inputs are correct');
   }
 }
 
@@ -38,11 +39,11 @@ class YearData {
 
   YearData(
       {this.eventCount,
-        this.gameName,
-        this.kickoff,
-        this.rookieStart,
-        this.teamCount,
-        this.frcChampionships});
+      this.gameName,
+      this.kickoff,
+      this.rookieStart,
+      this.teamCount,
+      this.frcChampionships});
 
   YearData.fromJson(Map<String, dynamic> json) {
     eventCount = json['eventCount'];
@@ -51,7 +52,7 @@ class YearData {
     rookieStart = json['rookieStart'];
     teamCount = json['teamCount'];
     if (json['frcChampionships'] != null) {
-      frcChampionships =  <FrcChampionships>[];
+      frcChampionships = <FrcChampionships>[];
       json['frcChampionships'].forEach((v) {
         frcChampionships.add(FrcChampionships.fromJson(v));
       });
@@ -94,7 +95,6 @@ class FrcChampionships {
     return data;
   }
 }
-
 
 class YearWidg extends StatefulWidget {
   final String url;
@@ -155,4 +155,3 @@ class _YearWidgState extends State<YearWidg> {
     return scaffold;
   }
 }
-

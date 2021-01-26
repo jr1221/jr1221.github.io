@@ -16,34 +16,47 @@ class MyApp extends StatelessWidget {
     );
   }
 }
+
 class Page1 extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     RaisedButton distCalcPager = RaisedButton(
-      child: Text("Distance Calculator Tool", style: TextStyle(fontSize: 28),),
+      child: Text(
+        "Distance Calculator Tool",
+        style: TextStyle(fontSize: 28),
+      ),
       onPressed: () {
-        Navigator.push(context,
-          MaterialPageRoute(builder: (context) =>  DistCalc()),
+        Navigator.push(
+          context,
+          MaterialPageRoute(builder: (context) => DistCalc()),
         );
       },
     );
     Visibility visFRC = Visibility(
       visible: !kIsWeb,
-    child: RaisedButton(
-      child: Text("FRC Datawizard", style: TextStyle(fontSize: 28),),
-      onPressed: () {
-        Navigator.push(context,
-          MaterialPageRoute(builder: (context) =>  ChooseData()),
-        );
-      },
-    ),
+      child: RaisedButton(
+        child: Text(
+          "FRC Datawizard",
+          style: TextStyle(fontSize: 28),
+        ),
+        onPressed: () {
+          Navigator.push(
+            context,
+            MaterialPageRoute(builder: (context) => ChooseData()),
+          );
+        },
+      ),
     );
     Container container = Container(
         padding: const EdgeInsets.all(8.0),
         child: ListView(children: <Widget>[
-          SizedBox(height: 20,),
+          SizedBox(
+            height: 20,
+          ),
           distCalcPager,
-          SizedBox(height: 40,),
+          SizedBox(
+            height: 40,
+          ),
           visFRC,
         ]));
     AppBar appBar = AppBar(
@@ -52,6 +65,5 @@ class Page1 extends StatelessWidget {
     );
     Scaffold scaffold = Scaffold(appBar: appBar, body: container);
     return scaffold;
-
   }
 }

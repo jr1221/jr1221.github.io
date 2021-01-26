@@ -24,7 +24,8 @@ Future<TeamsData> fetchAuto(String url) async {
   } else {
     // If the server did not return a 200 OK response,
     // then throw an exception.
-    throw Exception('Please Enter or check your API Key or ensure the entered inputs are correct');
+    throw Exception(
+        'Please Enter or check your API Key or ensure the entered inputs are correct');
   }
 }
 
@@ -37,14 +38,14 @@ class TeamsData {
 
   TeamsData(
       {this.teams,
-        this.teamCountTotal,
-        this.teamCountPage,
-        this.pageCurrent,
-        this.pageTotal});
+      this.teamCountTotal,
+      this.teamCountPage,
+      this.pageCurrent,
+      this.pageTotal});
 
   TeamsData.fromJson(Map<String, dynamic> json) {
     if (json['teams'] != null) {
-      teams =  <Teams>[];
+      teams = <Teams>[];
       json['teams'].forEach((v) {
         teams.add(new Teams.fromJson(v));
       });
@@ -84,17 +85,17 @@ class Teams {
 
   Teams(
       {this.schoolName,
-        this.website,
-        this.homeCMP,
-        this.teamNumber,
-        this.nameFull,
-        this.nameShort,
-        this.city,
-        this.stateProv,
-        this.country,
-        this.rookieYear,
-        this.robotName,
-        this.districtCode});
+      this.website,
+      this.homeCMP,
+      this.teamNumber,
+      this.nameFull,
+      this.nameShort,
+      this.city,
+      this.stateProv,
+      this.country,
+      this.rookieYear,
+      this.robotName,
+      this.districtCode});
 
   Teams.fromJson(Map<String, dynamic> json) {
     schoolName = json['schoolName'];
@@ -112,7 +113,7 @@ class Teams {
   }
 
   Map<String, dynamic> toJson() {
-    final Map<String, dynamic> data =  Map<String, dynamic>();
+    final Map<String, dynamic> data = Map<String, dynamic>();
     data['schoolName'] = this.schoolName;
     data['website'] = this.website;
     data['homeCMP'] = this.homeCMP;
@@ -128,8 +129,6 @@ class Teams {
     return data;
   }
 }
-
-
 
 class TeamsWidg extends StatefulWidget {
   final String url;
@@ -155,9 +154,11 @@ class _TeamsWidgState extends State<TeamsWidg> {
       builder: (context, snapshot) {
         if (snapshot.hasData) {
           String text = "";
-          text += "\nThis is page ${snapshot.data.pageCurrent} of ${snapshot.data.pageTotal}.";
-          text += "\n${snapshot.data.teamCountPage} teams are on this page, and there are ${snapshot.data.teamCountTotal} in total.";
-          text +="\nTeams:\n";
+          text +=
+              "\nThis is page ${snapshot.data.pageCurrent} of ${snapshot.data.pageTotal}.";
+          text +=
+              "\n${snapshot.data.teamCountPage} teams are on this page, and there are ${snapshot.data.teamCountTotal} in total.";
+          text += "\nTeams:\n";
           snapshot.data.teams.forEach((element) {
             text += "\n\n${element.teamNumber} -- ${element.nameShort}";
             text += "\n${element.nameFull}";
@@ -165,7 +166,8 @@ class _TeamsWidgState extends State<TeamsWidg> {
             text += "\n${element.districtCode} is their home district";
             text += "\nFrom ${element.schoolName}";
             text += "\nWebsite: ${element.website}";
-            text += "\nLocated in ${element.city},${element.stateProv},${element.country}";
+            text +=
+                "\nLocated in ${element.city},${element.stateProv},${element.country}";
             text += "\nRookie year is ${element.rookieYear}";
             text += "\nChampionship event: ${element.homeCMP}";
           });
@@ -193,4 +195,3 @@ class _TeamsWidgState extends State<TeamsWidg> {
     return scaffold;
   }
 }
-

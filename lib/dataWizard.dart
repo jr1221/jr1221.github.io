@@ -22,7 +22,7 @@ class _ChooseDataState extends State<ChooseData> {
   final controlYearDef = TextEditingController();
 
   @override
-  void initState()  {
+  void initState() {
     super.initState();
     _fillKey();
   }
@@ -43,16 +43,16 @@ class _ChooseDataState extends State<ChooseData> {
     final prefs = await SharedPreferences.getInstance();
     _userName = prefs.getString("username");
     if (_userName != null) {
-        controlUsername.text = _userName;
+      controlUsername.text = _userName;
     }
     _key = prefs.getString("key");
     if (_key != null) {
-        controlKey.text = _key;
+      controlKey.text = _key;
     }
     _yearDef = prefs.getString("default_year");
     if (_yearDef != null) {
-        controlYearDef.text = _yearDef;
-        controlYear.text = _yearDef;
+      controlYearDef.text = _yearDef;
+      controlYear.text = _yearDef;
       _year = int.parse(_yearDef);
     }
   }
@@ -133,8 +133,10 @@ class _ChooseDataState extends State<ChooseData> {
       decoration: InputDecoration(labelText: "Input Event"),
       onChanged: (String newValue) {
         setState(() {
-          if (newValue == null) _event = null;
-          else _event = newValue;
+          if (newValue == null)
+            _event = null;
+          else
+            _event = newValue;
         });
       },
     );

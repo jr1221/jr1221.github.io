@@ -6,7 +6,7 @@ class UrlGenerator {
   final String base = "https://frc-api.firstinspires.org/v2.0/";
   UrlGenerator(this.year, this.event, this.team);
 
-  String fromSelection({int selection, String extraNamed, int extraNamedMode}) {
+  String fromSelection({int selection, String extraNamed, String extraNamed2, int extraNamedMode}) {
     String url;
     bool eventB = true;
     bool teamB = true;
@@ -18,7 +18,8 @@ class UrlGenerator {
         break;
       case 9:
         url = "$base$year/teams/";
-        if (teamB) url += "?teamNumber=$team";
+        if (teamB)
+          url += "?teamNumber=$team";
         else if (eventB)
           url += "?eventCode=$event";
         else if (!eventB && !teamB) {
@@ -31,15 +32,27 @@ class UrlGenerator {
       case 10:
         url = "$base$year";
         break;
-      case 13:
-        url = "$base$year/districts";
-        break;
       case 11:
         url = "$base$year/awards";
         if (eventB) url += "/$event";
         if (teamB)
           url += "/$team";
         else if (!eventB && !teamB) url = "$base$year/awards/list";
+        break;
+      case 12:
+        if (teamB)
+          url = "$base$year/rankings/district/?teamNumber=$team";
+        else {
+          if (extraNamedMode == 1)
+            url = "$base$year/rankings/district/$extraNamed";
+          else if (extraNamedMode == 2)
+            url = "$base$year/rankings/district/$extraNamed?page=$extraNamed2";
+          else if (extraNamedMode == 3)
+            url = "$base$year/rankings/district/$extraNamed?top=$extraNamed2";
+        }
+        break;
+      case 13:
+        url = "$base$year/districts";
         break;
       case 14:
         url = "$base$year/avatars?teamNumber=$team";

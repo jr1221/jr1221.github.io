@@ -26,7 +26,8 @@ Future<Avatars> fetchAuto(String url) async {
   } else {
     // If the server did not return a 200 OK response,
     // then throw an exception.
-    throw Exception('Please Enter or check your API Key or ensure the entered inputs are correct');
+    throw Exception(
+        'Please Enter or check your API Key or ensure the entered inputs are correct');
   }
 }
 
@@ -119,11 +120,11 @@ class _AvatarWidgState extends State<AvatarWidg> {
               base6 = element.encodedAvatar;
             });
             _bytesImage = Base64Decoder().convert(base6);
-              return PhotoView(
-                imageProvider: MemoryImage(_bytesImage),
-                minScale: 5.4,
-                maxScale: 9.6,
-              );
+            return PhotoView(
+              imageProvider: MemoryImage(_bytesImage),
+              minScale: 5.4,
+              maxScale: 9.6,
+            );
           } else if (snapshot.hasError) {}
           return CircularProgressIndicator();
         },

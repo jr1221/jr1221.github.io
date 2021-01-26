@@ -1,12 +1,13 @@
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
-import 'jsonInterpreters/9_teams.dart';
+import 'package:handy_tools/jsonInterpreters/12_district_rankings.dart';
 import 'urlGenerator.dart';
 import 'jsonInterpreters/14_avatar.dart';
 import 'jsonInterpreters/13_districts.dart';
-import 'package:handy_tools/jsonInterpreters/11_awardsList.dart';
-import 'package:handy_tools/jsonInterpreters/11_awardsTeamEvent.dart';
+import 'jsonInterpreters/11_awardsList.dart';
+import 'jsonInterpreters/11_awardsTeamEvent.dart';
 import 'jsonInterpreters/10_yearInfo.dart';
+import 'jsonInterpreters/9_teams.dart';
 import 'jsonInterpreters/3_alliances.dart';
 
 class ChooseOpts extends StatefulWidget {
@@ -88,7 +89,7 @@ class _ChooseOptsState extends State<ChooseOpts> {
         int selection = 0;
         String goValue = "";
         if (_team == null && _event == null) {
-           selection = await showDialog(
+          selection = await showDialog(
               context: context,
               barrierDismissible: false,
               builder: (BuildContext context) => OptsWidg(
@@ -143,6 +144,60 @@ class _ChooseOptsState extends State<ChooseOpts> {
           );
       },
     );
+    FlatButton districtRankings = FlatButton(
+      child: Text('District Rankings'),
+      onPressed: () async {
+        String goValue;
+        String goValue2;
+        int selection;
+        if (_team == null) {
+          goValue = await showDialog(
+              context: context,
+              barrierDismissible: false,
+              builder: (BuildContext context) =>
+                  TextWidg("Enter District Code", "District Code"));
+          selection = await showDialog(
+              context: context,
+              barrierDismissible: false,
+              builder: (BuildContext context) => Opts2Widg(
+                  "Please choose return filter.",
+                  "None",
+                  "Page #",
+                  "Top X Rankings"));
+          if (selection == 2) {
+            goValue2 = await showDialog(
+                context: context,
+                barrierDismissible: false,
+                builder: (BuildContext context) =>
+                    TextWidg("Enter Page Number", "Page Number"));
+          }
+          else if (selection == 3) {
+            goValue2 = await showDialog(
+                context: context,
+                barrierDismissible: false,
+                builder: (BuildContext context) =>
+                    TextWidg("Enter Top X Rankings", "Top X Rankings"));
+          }
+          try {
+            int.parse(goValue2);
+          } catch (Exception) {
+            await showDialog(
+                context: context,
+              builder: (BuildContext context) => AlertWidg("Page Number and Top Rankings must be whole numbers"));
+            return;
+          }
+        }
+        String url = UrlGenerator(_year, _event, _team).fromSelection(
+            selection: 12,
+            extraNamed: goValue,
+            extraNamed2: goValue2,
+            extraNamedMode: selection);
+        Navigator.push(
+          context,
+          MaterialPageRoute(builder: (context) => DistrictRankWidg(url: url)),
+        );
+      },
+    );
     FlatButton districts = FlatButton(
       child: Text('Districts'),
       onPressed: () {
@@ -176,6 +231,7 @@ class _ChooseOptsState extends State<ChooseOpts> {
           teamListing,
           yearInfo,
           awards,
+          districtRankings,
           districts,
           teamAvatar,
         ]));
@@ -220,6 +276,45 @@ class OptsWidg extends StatelessWidget {
   }
 }
 
+class Opts2Widg extends StatelessWidget {
+  final String askEnt;
+  final String askOpt1;
+  final String askOpt2;
+  final String askOpt3;
+
+  Opts2Widg(this.askEnt, this.askOpt1, this.askOpt2, this.askOpt3);
+
+  @override
+  Widget build(BuildContext context) {
+    return AlertDialog(
+      title: Text(
+        askEnt,
+        textAlign: TextAlign.center,
+        style: TextStyle(fontSize: 18),
+      ),
+      actions: <Widget>[
+        ElevatedButton(
+            onPressed: () {
+              Navigator.pop(context, 1);
+            },
+            child: Text(askOpt1)),
+        ElevatedButton(
+          onPressed: () {
+            Navigator.pop(context, 2);
+          },
+          child: Text(askOpt2),
+        ),
+        ElevatedButton(
+          onPressed: () {
+            Navigator.pop(context, 3);
+          },
+          child: Text(askOpt3),
+        ),
+      ],
+    );
+  }
+}
+
 class TextWidg extends StatelessWidget {
   final String title;
   final String label;
@@ -250,3 +345,20 @@ class TextWidg extends StatelessWidget {
     );
   }
 }
+
+class AlertWidg extends StatelessWidget {
+  final String title;
+  AlertWidg(this.title);
+
+  @override
+  Widget build(BuildContext context) {
+    return AlertDialog(
+      title: Text(
+        title,
+        textAlign: TextAlign.center,
+        style: TextStyle(fontSize: 18),
+      ),
+    );
+  }
+}
+

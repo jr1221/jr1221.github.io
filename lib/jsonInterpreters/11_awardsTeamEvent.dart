@@ -24,9 +24,11 @@ Future<AwardsTBData> fetchAuto(String url) async {
   } else {
     // If the server did not return a 200 OK response,
     // then throw an exception.
-    throw Exception('Please Enter or check your API Key or ensure the entered inputs are correct');
+    throw Exception(
+        'Please Enter or check your API Key or ensure the entered inputs are correct');
   }
 }
+
 class AwardsTBData {
   List<Awards> awards;
 
@@ -34,7 +36,7 @@ class AwardsTBData {
 
   AwardsTBData.fromJson(Map<String, dynamic> json) {
     if (json['Awards'] != null) {
-      awards =  <Awards>[];
+      awards = <Awards>[];
       json['Awards'].forEach((v) {
         awards.add(new Awards.fromJson(v));
       });
@@ -42,7 +44,7 @@ class AwardsTBData {
   }
 
   Map<String, dynamic> toJson() {
-    final Map<String, dynamic> data =  Map<String, dynamic>();
+    final Map<String, dynamic> data = Map<String, dynamic>();
     if (this.awards != null) {
       data['Awards'] = this.awards.map((v) => v.toJson()).toList();
     }
@@ -65,16 +67,16 @@ class Awards {
 
   Awards(
       {this.awardId,
-        this.teamId,
-        this.eventId,
-        this.eventDivisionId,
-        this.eventCode,
-        this.name,
-        this.series,
-        this.teamNumber,
-        this.schoolName,
-        this.fullTeamName,
-        this.person});
+      this.teamId,
+      this.eventId,
+      this.eventDivisionId,
+      this.eventCode,
+      this.name,
+      this.series,
+      this.teamNumber,
+      this.schoolName,
+      this.fullTeamName,
+      this.person});
 
   Awards.fromJson(Map<String, dynamic> json) {
     awardId = json['awardId'];
@@ -91,7 +93,7 @@ class Awards {
   }
 
   Map<String, dynamic> toJson() {
-    final Map<String, dynamic> data =  Map<String, dynamic>();
+    final Map<String, dynamic> data = Map<String, dynamic>();
     data['awardId'] = this.awardId;
     data['teamId'] = this.teamId;
     data['eventId'] = this.eventId;
@@ -106,8 +108,6 @@ class Awards {
     return data;
   }
 }
-
-
 
 class AwardsWidg extends StatefulWidget {
   final String url;
@@ -135,13 +135,13 @@ class _AwardsWidgState extends State<AwardsWidg> {
           String text = "";
           snapshot.data.awards.forEach((element) {
             text += "\n\n${element.name}";
-       //     teamId, eventId, eventDivisionId  endpoints not really useful
+            //     teamId, eventId, eventDivisionId  endpoints not really useful
             if (element.teamNumber != null) {
-              text += "\nAwarded to team ${element.teamNumber} -\n- ${element.fullTeamName}";
+              text +=
+                  "\nAwarded to team ${element.teamNumber} -\n- ${element.fullTeamName}";
             }
             text += "\nNumber ${element.series} in event that received award.";
-            text +="\nInternal Award ID: ${element.awardId}";
-
+            text += "\nInternal Award ID: ${element.awardId}";
           });
           return Text(text);
         } else if (snapshot.hasError) {
@@ -167,4 +167,3 @@ class _AwardsWidgState extends State<AwardsWidg> {
     return scaffold;
   }
 }
-
