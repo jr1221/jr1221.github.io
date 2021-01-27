@@ -1,12 +1,18 @@
+import 'package:flutter/foundation.dart' show kIsWeb;
+
 class UrlGenerator {
   final int year;
   final String event;
   final int team;
 
-  final String base = "https://frc-api.firstinspires.org/v2.0/";
   UrlGenerator(this.year, this.event, this.team);
 
   String fromSelection({int selection, String extraNamed, String extraNamed2, int extraNamedMode}) {
+    String base;
+    if (!kIsWeb) {
+      base = "https://frc-api.firstinspires.org/v2.0/";
+    } else
+      base = "http://localhost:8010/proxy/v2.0/";
     String url;
     bool eventB = true;
     bool teamB = true;

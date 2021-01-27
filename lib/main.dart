@@ -1,13 +1,12 @@
 import 'package:flutter/material.dart';
 import 'distCalc.dart';
 import 'dataWizard.dart';
-import 'package:flutter/foundation.dart' show kIsWeb;
 
 void main() => runApp(MyApp());
 
 class MyApp extends StatelessWidget {
   static const String _title = 'Handy Tools by Jack';
-
+  static String base = "";
   @override
   Widget build(BuildContext context) {
     return MaterialApp(
@@ -33,7 +32,7 @@ class Page1 extends StatelessWidget {
       },
     );
     Visibility visFRC = Visibility(
-      visible: !kIsWeb,
+  //    visible: !kIsWeb,
       child: RaisedButton(
         child: Text(
           "FRC Datawizard",
