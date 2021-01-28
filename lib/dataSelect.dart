@@ -1,13 +1,14 @@
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
-import 'package:handy_tools/jsonInterpreters/12_district_rankings.dart';
 import 'urlGenerator.dart';
 import 'jsonInterpreters/14_avatar.dart';
 import 'jsonInterpreters/13_districts.dart';
+import 'package:handy_tools/jsonInterpreters/12_district_rankings.dart';
 import 'jsonInterpreters/11_awardsList.dart';
 import 'jsonInterpreters/11_awardsTeamEvent.dart';
 import 'jsonInterpreters/10_yearInfo.dart';
 import 'jsonInterpreters/9_teams.dart';
+import 'package:handy_tools/jsonInterpreters/8_events.dart';
 import 'jsonInterpreters/3_alliances.dart';
 
 class ChooseOpts extends StatefulWidget {
@@ -80,6 +81,44 @@ class _ChooseOptsState extends State<ChooseOpts> {
         Navigator.push(
           context,
           MaterialPageRoute(builder: (context) => AlliancesWidg(url: url)),
+        );
+      },
+    );
+    FlatButton eventListing = FlatButton(
+      child: Text('Event Listings'),
+      onPressed: () async {
+        int selection;
+        int selection2;
+        String goValue = "";
+        if (_event == null && _team == null) {
+          selection = await showDialog(
+              context: context,
+              barrierDismissible: false,
+              builder: (BuildContext context) => OptsWidg(
+                  "Filter by District Code?",
+                  "Yes",
+                  "No"));
+          if (selection == 1) {
+            goValue = await showDialog(
+                context: context,
+                barrierDismissible: false,
+                builder: (BuildContext context) =>
+                    TextWidg("Enter District Code", "District Code"));
+          } else {
+            selection2 = await showDialog(
+                context: context,
+                barrierDismissible: false,
+                builder: (BuildContext context) => OptsWidg(
+                    "Exclude District and Championship events?",
+                    "Yes",
+                    "No"));
+          }
+        }
+        String url =
+        UrlGenerator(_year, _event, _team).fromSelection(selection: 8, extraNamed: goValue, extraNamedMode: selection, extraNamedMode2: selection2);
+        Navigator.push(
+          context,
+          MaterialPageRoute(builder: (context) => EventsWidg(url: url)),
         );
       },
     );
@@ -228,6 +267,7 @@ class _ChooseOptsState extends State<ChooseOpts> {
             width: 20,
           ),
           alliances,
+          eventListing,
           teamListing,
           yearInfo,
           awards,

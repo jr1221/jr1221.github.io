@@ -7,7 +7,7 @@ class UrlGenerator {
 
   UrlGenerator(this.year, this.event, this.team);
 
-  String fromSelection({int selection, String extraNamed, String extraNamed2, int extraNamedMode}) {
+  String fromSelection({int selection, String extraNamed, String extraNamed2, int extraNamedMode, int extraNamedMode2}) {
     String base;
     if (!kIsWeb) {
       base = "https://frc-api.firstinspires.org/v2.0/";
@@ -21,6 +21,17 @@ class UrlGenerator {
     switch (selection) {
       case 3:
         url = "$base$year/alliances/$event";
+        break;
+      case 8:
+        url = "$base$year/events/";
+        if (teamB) url += "?teamNumber=$team";
+        else if (eventB) url += "$event";
+        else if (!teamB && !eventB) {
+            if (extraNamedMode == 1)
+              url += "?districtCode=$extraNamed";
+            else if (extraNamedMode2 == 1)
+              url += "?excludeDistrict=true";
+        }
         break;
       case 9:
         url = "$base$year/teams/";

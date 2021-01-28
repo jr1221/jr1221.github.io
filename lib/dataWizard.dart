@@ -133,7 +133,7 @@ class _ChooseDataState extends State<ChooseData> {
       decoration: InputDecoration(labelText: "Input Event"),
       onChanged: (String newValue) {
         setState(() {
-          if (newValue == null)
+          if (newValue == null || newValue == "" || newValue == " ")
             _event = null;
           else
             _event = newValue;
