@@ -60546,7 +60546,7 @@ F.UG.prototype={
 $1:function(a){return new U.lb(null)},
 $S:390}
 Z.j4.prototype={
-zh:function(a,b,c,d){var s,r,q=this,p="http://localhost:8010/proxy/v2.0/",o="/rankings/district/",n=q.b,m=n!=null||!1,l=q.c,k=l!=null||!1
+zh:function(a,b,c,d){var s,r,q=this,p="http://am.encrypt.se:62341/proxy/v2.0/",o="/rankings/district/",n=q.b,m=n!=null||!1,l=q.c,k=l!=null||!1
 switch(d){case 3:s=p+H.b(q.a)+"/alliances/"+H.b(n)
 break
 case 9:s=p+H.b(q.a)+"/teams/"
