@@ -60827,7 +60827,7 @@ F.US.prototype={
 $1:function(a){return new U.lk(null)},
 $S:398}
 Z.hY.prototype={
-tu:function(a,b,c,d,e){var s,r,q=this,p="https://am.encrypt.se/zapiz/v2.0",o="/rankings/district/",n=q.b,m=n!=null||!1,l=q.c,k=l!=null||!1
+tu:function(a,b,c,d,e){var s,r,q=this,p="https://am.encrypt.se/zapiz/v2.0/",o="/rankings/district/",n=q.b,m=n!=null||!1,l=q.c,k=l!=null||!1
 switch(e){case 3:s=p+H.b(q.a)+"/alliances/"+H.b(n)
 break
 case 8:s=p+H.b(q.a)+"/events/"

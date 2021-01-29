@@ -12,7 +12,7 @@ class UrlGenerator {
     if (!kIsWeb) {
       base = "https://frc-api.firstinspires.org/v2.0/";
     } else
-      base = "https://am.encrypt.se/zapiz/v2.0";
+      base = "https://am.encrypt.se/zapiz/v2.0/";
     String url;
     bool eventB = true;
     bool teamB = true;
