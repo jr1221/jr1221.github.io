@@ -1,5 +1,6 @@
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
+import 'jsonInterpreters/7_event_rankings.dart';
 import 'urlGenerator.dart';
 import 'jsonInterpreters/14_avatar.dart';
 import 'jsonInterpreters/13_districts.dart';
@@ -81,6 +82,38 @@ class _ChooseOptsState extends State<ChooseOpts> {
         Navigator.push(
           context,
           MaterialPageRoute(builder: (context) => AlliancesWidg(url: url)),
+        );
+      },
+    );
+    FlatButton eventRankings = FlatButton(
+      child: Text('Event Rankings'),
+      onPressed: () async {
+        if (_removeUnable(true, false)) return;
+        int selection;
+        String goValue;
+        if (_team == null) {
+          selection = await showDialog(
+              context: context,
+              barrierDismissible: false,
+              builder: (BuildContext context) => OptsWidg(
+                  "Filter by Top X Rankings?",
+                  "Yes",
+                  "No"));
+          if (selection == 1) {
+            goValue = await showDialog(
+                context: context,
+                barrierDismissible: false,
+                builder: (BuildContext context) => TextWidg(
+                    "Enter Top X Rankings",
+                    "Top X Rankings"));
+          }
+        }
+        String url =
+        UrlGenerator(_year, _event, _team).fromSelection(selection: 7, extraNamedMode: selection, extraNamed: goValue);
+        print(url);
+        Navigator.push(
+          context,
+          MaterialPageRoute(builder: (context) => EventRankWidg(url: url)),
         );
       },
     );
@@ -267,6 +300,7 @@ class _ChooseOptsState extends State<ChooseOpts> {
             width: 20,
           ),
           alliances,
+          eventRankings,
           eventListing,
           teamListing,
           yearInfo,

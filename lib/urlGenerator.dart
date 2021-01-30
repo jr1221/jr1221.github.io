@@ -22,6 +22,11 @@ class UrlGenerator {
       case 3:
         url = "$base$year/alliances/$event";
         break;
+      case 7:
+        url = "$base$year/rankings/$event";
+        if (teamB) url += "?teamNumber=$team";
+        else if (extraNamedMode == 1 && int.tryParse(extraNamed.trim()) != null) url += "?top=$extraNamed";
+        break;
       case 8:
         url = "$base$year/events/";
         if (teamB) url += "?teamNumber=$team";
