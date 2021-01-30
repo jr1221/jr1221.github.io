@@ -1,5 +1,6 @@
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
+import 'package:handy_tools/jsonInterpreters/2_hybrid_schedule.dart';
 import 'jsonInterpreters/7_event_rankings.dart';
 import 'urlGenerator.dart';
 import 'jsonInterpreters/14_avatar.dart';
@@ -82,6 +83,89 @@ class _ChooseOptsState extends State<ChooseOpts> {
         Navigator.push(
           context,
           MaterialPageRoute(builder: (context) => AlliancesWidg(url: url)),
+        );
+      },
+    );
+    FlatButton matchData = FlatButton(
+      child: Text('Match Data'),
+      onPressed: () {
+        if (_removeUnable(true, false)) return;
+        String url =
+        UrlGenerator(_year, _event, _team).fromSelection(selection: 3);
+        Navigator.push(
+          context,
+          MaterialPageRoute(builder: (context) => AlliancesWidg(url: url)),
+        );
+      },
+    );
+    FlatButton scoreResults = FlatButton(
+      child: Text('Score Results'),
+      onPressed: () {
+        if (_removeUnable(true, false)) return;
+        String url =
+        UrlGenerator(_year, _event, _team).fromSelection(selection: 3);
+        Navigator.push(
+          context,
+          MaterialPageRoute(builder: (context) => AlliancesWidg(url: url)),
+        );
+      },
+    );
+    FlatButton matchSchedule = FlatButton(
+      child: Text('Match Schedule'),
+      onPressed: () async {
+        int selection;
+        if (_removeUnable(true, false)) return;
+        selection = await showDialog(
+            context: context,
+            barrierDismissible: false,
+            builder: (BuildContext context) => OptsWidg(
+                "Matches to show:",
+                "Qualification",
+                "Playoff"));
+        String url =
+        UrlGenerator(_year, _event, _team).fromSelection(selection: 3);
+        Navigator.push(
+          context,
+          MaterialPageRoute(builder: (context) => AlliancesWidg(url: url)),
+        );
+      },
+    );
+    FlatButton hybridSchedule = FlatButton(
+      child: Text('Match Schedule with Results'),
+      onPressed: () async {
+        int selection;
+        int selection2;
+        String goValue;
+        if (_removeUnable(true, false)) return;
+        selection = await showDialog(
+            context: context,
+            barrierDismissible: false,
+            builder: (BuildContext context) => OptsWidg(
+                "Matches to show:",
+                "Qualification",
+                "Playoff"));
+        selection2 = await showDialog(
+            context: context,
+            barrierDismissible: false,
+            builder: (BuildContext context) => Opts2Widg(
+                "Limit to:",
+                "Matches starting at X",
+                "Matches ending at X",
+                "All matches"));
+        if (selection2 != 3) {
+          goValue = await showDialog(
+              context: context,
+              barrierDismissible: false,
+              builder: (BuildContext context) => TextWidg(
+                  "Enter limit",
+                  "Limit to"));
+        }
+        String url =
+        UrlGenerator(_year, _event, _team).fromSelection(selection: 2, extraNamedMode: selection, extraNamedMode2: selection2, extraNamed: goValue);
+        print(url);
+        Navigator.push(
+          context,
+          MaterialPageRoute(builder: (context) => HybridSchedWidg(url: url)),
         );
       },
     );
@@ -300,6 +384,10 @@ class _ChooseOptsState extends State<ChooseOpts> {
             width: 20,
           ),
           alliances,
+        /*  matchData,
+          scoreResults,
+          matchSchedule, */
+          hybridSchedule,
           eventRankings,
           eventListing,
           teamListing,

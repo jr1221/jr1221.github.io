@@ -19,6 +19,14 @@ class UrlGenerator {
     if (event == null) eventB = false;
     if (team == null) teamB = false;
     switch (selection) {
+      case 2:
+        String modeSet;
+        if (extraNamedMode ==1) modeSet = "qual";
+        else modeSet = "playoff";
+        url = "$base$year/schedule/melew/$modeSet/hybrid";
+        if (extraNamedMode2 == 1 && int.tryParse(extraNamed) != null) url += "?start=$extraNamed";
+        else if(extraNamedMode2 ==2 && int.tryParse(extraNamed) != null) url += "?end=$extraNamed";
+        break;
       case 3:
         url = "$base$year/alliances/$event";
         break;
