@@ -6,7 +6,7 @@ import 'package:http/http.dart' as http;
 import 'package:http/http.dart';
 import 'package:shared_preferences/shared_preferences.dart';
 
-Future<HybridSchedData> fetchAuto(String url) async {
+Future<MatchSchedData> fetchAuto(String url) async {
   final prefs = await SharedPreferences.getInstance();
   final username = prefs.getString('username') ?? "";
   final key = prefs.getString('key') ?? "";
@@ -20,7 +20,7 @@ Future<HybridSchedData> fetchAuto(String url) async {
   if (response.statusCode == 200) {
     // If the server did return a 200 OK response,
     // then parse the JSON.
-    return HybridSchedData.fromJson(jsonDecode(response.body));
+    return MatchSchedData.fromJson(jsonDecode(response.body));
   } else {
     // If the server did not return a 200 OK response,
     // then throw an exception.
@@ -28,12 +28,13 @@ Future<HybridSchedData> fetchAuto(String url) async {
         'Please Enter or check your API Key or ensure the entered inputs are correct');
   }
 }
-class HybridSchedData {
+
+class MatchSchedData {
   List<Schedule> schedule;
 
-  HybridSchedData({this.schedule});
+  MatchSchedData({this.schedule});
 
-  HybridSchedData.fromJson(Map<String, dynamic> json) {
+  MatchSchedData.fromJson(Map<String, dynamic> json) {
     if (json['Schedule'] != null) {
       schedule = <Schedule>[];
       json['Schedule'].forEach((v) {
@@ -52,48 +53,27 @@ class HybridSchedData {
 }
 
 class Schedule {
+  String field;
   String tournamentLevel;
-  String actualStartTime;
-  String postResultTime;
   String description;
-  int matchNumber;
   String startTime;
-  int scoreRedFinal;
-  int scoreRedFoul;
-  int scoreRedAuto;
-  int scoreBlueFinal;
-  int scoreBlueFoul;
-  int scoreBlueAuto;
+  int matchNumber;
   List<Teams> teams;
 
   Schedule(
-      {this.tournamentLevel,
-        this.actualStartTime,
-        this.postResultTime,
+      {this.field,
+        this.tournamentLevel,
         this.description,
-        this.matchNumber,
         this.startTime,
-        this.scoreRedFinal,
-        this.scoreRedFoul,
-        this.scoreRedAuto,
-        this.scoreBlueFinal,
-        this.scoreBlueFoul,
-        this.scoreBlueAuto,
+        this.matchNumber,
         this.teams});
 
   Schedule.fromJson(Map<String, dynamic> json) {
+    field = json['field'];
     tournamentLevel = json['tournamentLevel'];
-    actualStartTime = json['actualStartTime'];
-    postResultTime = json['postResultTime'];
     description = json['description'];
-    matchNumber = json['matchNumber'];
     startTime = json['startTime'];
-    scoreRedFinal = json['scoreRedFinal'];
-    scoreRedFoul = json['scoreRedFoul'];
-    scoreRedAuto = json['scoreRedAuto'];
-    scoreBlueFinal = json['scoreBlueFinal'];
-    scoreBlueFoul = json['scoreBlueFoul'];
-    scoreBlueAuto = json['scoreBlueAuto'];
+    matchNumber = json['matchNumber'];
     if (json['teams'] != null) {
       teams = <Teams>[];
       json['teams'].forEach((v) {
@@ -104,18 +84,11 @@ class Schedule {
 
   Map<String, dynamic> toJson() {
     final Map<String, dynamic> data =  Map<String, dynamic>();
+    data['field'] = this.field;
     data['tournamentLevel'] = this.tournamentLevel;
-    data['actualStartTime'] = this.actualStartTime;
-    data['postResultTime'] = this.postResultTime;
     data['description'] = this.description;
-    data['matchNumber'] = this.matchNumber;
     data['startTime'] = this.startTime;
-    data['scoreRedFinal'] = this.scoreRedFinal;
-    data['scoreRedFoul'] = this.scoreRedFoul;
-    data['scoreRedAuto'] = this.scoreRedAuto;
-    data['scoreBlueFinal'] = this.scoreBlueFinal;
-    data['scoreBlueFoul'] = this.scoreBlueFoul;
-    data['scoreBlueAuto'] = this.scoreBlueAuto;
+    data['matchNumber'] = this.matchNumber;
     if (this.teams != null) {
       data['teams'] = this.teams.map((v) => v.toJson()).toList();
     }
@@ -127,38 +100,35 @@ class Teams {
   int teamNumber;
   String station;
   bool surrogate;
-  bool dq;
 
-  Teams({this.teamNumber, this.station, this.surrogate, this.dq});
+  Teams({this.teamNumber, this.station, this.surrogate});
 
   Teams.fromJson(Map<String, dynamic> json) {
     teamNumber = json['teamNumber'];
     station = json['station'];
     surrogate = json['surrogate'];
-    dq = json['dq'];
   }
 
   Map<String, dynamic> toJson() {
-    final Map<String, dynamic> data =  Map<String, dynamic>();
+    final Map<String, dynamic> data = new Map<String, dynamic>();
     data['teamNumber'] = this.teamNumber;
     data['station'] = this.station;
     data['surrogate'] = this.surrogate;
-    data['dq'] = this.dq;
     return data;
   }
 }
 
 
-class HybridSchedWidg extends StatefulWidget {
+class MatchSchedWidg extends StatefulWidget {
   final String url;
-  HybridSchedWidg({Key key, this.url}) : super(key: key);
+  MatchSchedWidg({Key key, this.url}) : super(key: key);
 
   @override
-  _HybridSchedWidgState createState() => _HybridSchedWidgState();
+  _MatchSchedWidgState createState() => _MatchSchedWidgState();
 }
 
-class _HybridSchedWidgState extends State<HybridSchedWidg> {
-  Future<HybridSchedData> futureAuto;
+class _MatchSchedWidgState extends State<MatchSchedWidg> {
+  Future<MatchSchedData> futureAuto;
 
   @override
   void initState() {
@@ -168,7 +138,7 @@ class _HybridSchedWidgState extends State<HybridSchedWidg> {
 
   @override
   Widget build(BuildContext context) {
-    FutureBuilder future = FutureBuilder<HybridSchedData>(
+    FutureBuilder future = FutureBuilder<MatchSchedData>(
       future: futureAuto,
       builder: (context, snapshot) {
         if (snapshot.hasData) {
@@ -176,19 +146,11 @@ class _HybridSchedWidgState extends State<HybridSchedWidg> {
           snapshot.data.schedule.forEach((element) {
             text += "\n\n\n${element.description} -- (No. ${element.matchNumber}) (${element.tournamentLevel})";
             text += "\nScheduled for ${element.startTime}";
-            text += "\nStarted at ${element.actualStartTime}";
-            text += "\nResults announced at ${element.postResultTime}";
-            text += "\n${element.scoreRedFinal} Red points";
-            text += "\n  ${element.scoreRedAuto} autonomous points.";
-            text += "\n  ${element.scoreRedFoul} foul points";
-            text += "\n${element.scoreBlueFinal} Blue points";
-            text += "\n  ${element.scoreBlueAuto} autonomous points.";
-            text += "\n  ${element.scoreBlueFoul} foul points";
+            if (element.field != "Primary") text += "\nMatch played on secondary field.";
             element.teams.forEach((element2) {
               text += "\n\nTeam ${element2.teamNumber}";
               text += "\nStationed at ${element2.station}";
               if (element2.surrogate) text += "\nThey were a surrogate team";
-              if (element2.dq) text += "\nThey were disqualified!";
             });
           });
           return Text(text);
@@ -209,7 +171,7 @@ class _HybridSchedWidgState extends State<HybridSchedWidg> {
       ),
     );
     AppBar appBar = AppBar(
-      title: Text('Match Schedule w/ Results'),
+      title: Text('Match Schedule'),
     );
     Scaffold scaffold = Scaffold(appBar: appBar, body: container);
     return scaffold;

@@ -23,12 +23,22 @@ class UrlGenerator {
         String modeSet;
         if (extraNamedMode ==1) modeSet = "qual";
         else modeSet = "playoff";
-        url = "$base$year/schedule/melew/$modeSet/hybrid";
+        url = "$base$year/schedule/$event/$modeSet/hybrid";
         if (extraNamedMode2 == 1 && int.tryParse(extraNamed) != null) url += "?start=$extraNamed";
         else if(extraNamedMode2 ==2 && int.tryParse(extraNamed) != null) url += "?end=$extraNamed";
         break;
       case 3:
         url = "$base$year/alliances/$event";
+        break;
+      case 6:
+        url = "$base$year/schedule/$event";
+        if (teamB) url += "?teamNumber=$team";
+        else {
+          if (extraNamedMode ==1) url += "/qual";
+          else url += "/playoff";
+          if (extraNamedMode2 == 1 && int.tryParse(extraNamed) != null) url += "?start=$extraNamed";
+          else if(extraNamedMode2 ==2 && int.tryParse(extraNamed) != null) url += "?end=$extraNamed";
+        }
         break;
       case 7:
         url = "$base$year/rankings/$event";
