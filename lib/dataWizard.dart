@@ -153,7 +153,7 @@ class _ChooseDataState extends State<ChooseData> {
         });
       },
     );
-    RaisedButton goButton = RaisedButton(
+    ElevatedButton goButton = ElevatedButton(
       child: Text("Go"),
       onPressed: () {
         if (_checkYear()) return;

@@ -5,13 +5,13 @@ const CACHE_NAME = 'flutter-app-cache';
 const RESOURCES = {
   "manifest.json": "4a8b86bceea858a7c79f6633940b19af",
 "version.json": "65b191c7f7ab8e5c2d47055327c238ef",
-"main.dart.js": "0bdaf4ea3e552120a31ff3f3e48e2aa2",
+"main.dart.js": "131103ebad4b5c8ca8f34982ab322b62",
 "favicon.png": "3c5e721dbbad139dd7a1d8f4890f23b3",
 "icons/Icon-192.png": "ac9a721a12bbc803b44f645561ecb1e1",
 "icons/Icon-512.png": "96e752610906ba2a93c65f8abe1645f1",
-"index.html": "6ece3b6cf73f318ef8b11065bfbca484",
-"/": "6ece3b6cf73f318ef8b11065bfbca484",
-"assets/NOTICES": "876ecd246e9b3ceb16085432807f7940",
+"index.html": "f277034d11ee56152d1597ddf96a5bf9",
+"/": "f277034d11ee56152d1597ddf96a5bf9",
+"assets/NOTICES": "d727b17596a83778c6b53df867449ee4",
 "assets/AssetManifest.json": "21778460539f4e27c6884859b2bb00fa",
 "assets/fonts/MaterialIcons-Regular.otf": "1288c9e28052e028aba623321f7826ac",
 "assets/assets/DistanceEstimation.jpg": "2d1d9a4b1cbc6ea72d38d45405a44206",
@@ -159,7 +159,7 @@ async function downloadOffline() {
     }
     currentContent[key] = true;
   }
-  for (var resourceKey in Object.keys(RESOURCES)) {
+  for (var resourceKey of Object.keys(RESOURCES)) {
     if (!currentContent[resourceKey]) {
       resources.push(resourceKey);
     }

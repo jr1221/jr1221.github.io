@@ -2,6 +2,7 @@ import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:handy_tools/jsonInterpreters/2_hybrid_schedule.dart';
 import 'package:handy_tools/jsonInterpreters/6_match_schedule.dart';
+import 'jsonInterpreters/5_score_results.dart';
 import 'jsonInterpreters/7_event_rankings.dart';
 import 'urlGenerator.dart';
 import 'jsonInterpreters/14_avatar.dart';
@@ -75,7 +76,7 @@ class _ChooseOptsState extends State<ChooseOpts> {
 
   @override
   Widget build(BuildContext context) {
-    FlatButton alliances = FlatButton(
+    TextButton alliances = TextButton(
       child: Text('Alliances'),
       onPressed: () {
         if (_removeUnable(true, false)) return;
@@ -87,7 +88,7 @@ class _ChooseOptsState extends State<ChooseOpts> {
         );
       },
     );
-    FlatButton matchData = FlatButton(
+    TextButton matchData = TextButton(
       child: Text('Match Data'),
       onPressed: () {
         if (_removeUnable(true, false)) return;
@@ -99,19 +100,19 @@ class _ChooseOptsState extends State<ChooseOpts> {
         );
       },
     );
-    FlatButton scoreResults = FlatButton(
+    TextButton scoreResults = TextButton(
       child: Text('Score Results'),
       onPressed: () {
         if (_removeUnable(true, false)) return;
         String url =
-        UrlGenerator(_year, _event, _team).fromSelection(selection: 3);
+        UrlGenerator(_year, _event, _team).fromSelection(selection: 5);
         Navigator.push(
           context,
-          MaterialPageRoute(builder: (context) => AlliancesWidg(url: url)),
+          MaterialPageRoute(builder: (context) => ScoreResultsWidg(url: url)),
         );
       },
     );
-    FlatButton matchSchedule = FlatButton(
+    TextButton matchSchedule = TextButton(
       child: Text('Match Schedule'),
       onPressed: () async {
         int selection;
@@ -155,7 +156,7 @@ class _ChooseOptsState extends State<ChooseOpts> {
         );
       },
     );
-    FlatButton hybridSchedule = FlatButton(
+    TextButton hybridSchedule = TextButton(
       child: Text('Match Schedule with Results'),
       onPressed: () async {
         int selection;
@@ -194,7 +195,7 @@ class _ChooseOptsState extends State<ChooseOpts> {
         );
       },
     );
-    FlatButton eventRankings = FlatButton(
+    TextButton eventRankings = TextButton(
       child: Text('Event Rankings'),
       onPressed: () async {
         if (_removeUnable(true, false)) return;
@@ -226,7 +227,7 @@ class _ChooseOptsState extends State<ChooseOpts> {
         );
       },
     );
-    FlatButton eventListing = FlatButton(
+    TextButton eventListing = TextButton(
       child: Text('Event Listings'),
       onPressed: () async {
         int selection;
@@ -264,7 +265,7 @@ class _ChooseOptsState extends State<ChooseOpts> {
         );
       },
     );
-    FlatButton teamListing = FlatButton(
+    TextButton teamListing = TextButton(
       child: Text('Team Listings'),
       onPressed: () async {
         int selection = 0;
@@ -297,7 +298,7 @@ class _ChooseOptsState extends State<ChooseOpts> {
         );
       },
     );
-    FlatButton yearInfo = FlatButton(
+    TextButton yearInfo = TextButton(
       child: Text('Year Info'),
       onPressed: () {
         String url =
@@ -308,7 +309,7 @@ class _ChooseOptsState extends State<ChooseOpts> {
         );
       },
     );
-    FlatButton awards = FlatButton(
+    TextButton awards = TextButton(
       child: Text('Awards'),
       onPressed: () {
         String url =
@@ -325,7 +326,7 @@ class _ChooseOptsState extends State<ChooseOpts> {
           );
       },
     );
-    FlatButton districtRankings = FlatButton(
+    TextButton districtRankings = TextButton(
       child: Text('District Rankings'),
       onPressed: () async {
         String goValue;
@@ -379,7 +380,7 @@ class _ChooseOptsState extends State<ChooseOpts> {
         );
       },
     );
-    FlatButton districts = FlatButton(
+    TextButton districts = TextButton(
       child: Text('Districts'),
       onPressed: () {
         String url =
@@ -390,7 +391,7 @@ class _ChooseOptsState extends State<ChooseOpts> {
         );
       },
     );
-    FlatButton teamAvatar = FlatButton(
+    TextButton teamAvatar = TextButton(
       child: Text('Avatar'),
       onPressed: () {
         if (_removeUnable(false, true)) return;
@@ -409,8 +410,8 @@ class _ChooseOptsState extends State<ChooseOpts> {
             width: 20,
           ),
           alliances,
-        /*  matchData,
-          scoreResults, */
+        //  matchData,
+          scoreResults,
           matchSchedule,
           hybridSchedule,
           eventRankings,

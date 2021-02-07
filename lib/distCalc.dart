@@ -203,14 +203,16 @@ class _DistCalcState extends State<DistCalc> {
       items: _nameInfo.map<DropdownMenuItem<String>>((String value) {
         return DropdownMenuItem<String>(
           value: value,
-          child: Text(
-            value,
-            style: TextStyle(fontSize: 22),
+          child: Center(
+            child: Text(
+              value,
+              style: TextStyle(fontSize: 22),
+            ),
           ),
         );
       }).toList(),
     );
-    RaisedButton calcButton = RaisedButton(
+    ElevatedButton calcButton = ElevatedButton(
         child: Text(
           "Calculate",
           style: TextStyle(fontSize: 26),
@@ -218,7 +220,7 @@ class _DistCalcState extends State<DistCalc> {
         onPressed: () {
           _calcDo();
         });
-    FlatButton imgShow = FlatButton(
+    ElevatedButton imgShow = ElevatedButton(
       child: Text(
         "Show Diagram",
         style: TextStyle(fontSize: 22),
@@ -227,7 +229,7 @@ class _DistCalcState extends State<DistCalc> {
         await showDialog(context: context, builder: (_) => ViewImg());
       },
     );
-    FlatButton historyButton = FlatButton(
+    ElevatedButton historyButton = ElevatedButton(
       child: Text("Previous Results", style: TextStyle(fontSize: 20)),
       onPressed: () {
         _showHistory();

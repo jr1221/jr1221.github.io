@@ -19,7 +19,7 @@ class MyApp extends StatelessWidget {
 class Page1 extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
-    RaisedButton distCalcPager = RaisedButton(
+    ElevatedButton distCalcPager = ElevatedButton(
       child: Text(
         "Distance Calculator Tool",
         style: TextStyle(fontSize: 28),
@@ -33,7 +33,7 @@ class Page1 extends StatelessWidget {
     );
     Visibility visFRC = Visibility(
   //    visible: !kIsWeb,
-      child: RaisedButton(
+      child: ElevatedButton(
         child: Text(
           "FRC Datawizard",
           style: TextStyle(fontSize: 28),
